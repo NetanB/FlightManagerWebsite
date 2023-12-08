@@ -1,0 +1,37 @@
+<h1>{{title}}</h1>
+
+<form method="POST">
+<fieldset>
+    <label for="name" class="col-2">Name: </label>
+    <input name="name" id="name" required value="{{booking.name}}"/>
+</fieldset>
+<fieldset>
+    <select name="airline" id="airline">
+        {{#each airlines}}
+        <!--<option>{{this.name}}</option>-->
+        {{!-- Modify this block of code with a helper method (app.js) to add a selected option --}}
+        {{createOption this.name ../booking.airline}}
+        {{/each}}
+    </select>
+</fieldset>
+<fieldset>
+    <label for="departureDate" class="col-2"> Departure Date: </label>
+    <input name="departureDate" id="departureDate" required value="{{booking.departureDate}}"/>
+</fieldset>
+<fieldset>
+    <label for="departureAirport" class="col-2">Departure Airport: </label>
+    <input name="departureAirport" id="departureAirport" required value="{{booking.departureAirport}}"/>
+</fieldset>
+<fieldset>
+    <label for="arrivalAirport" class="col-2">Arrival Airport: </label>
+    <input name="arrivalAirport" id="arrivalAirport" required value="{{booking.arrivalAirport}}"/>
+</fieldset>
+
+<fieldset>
+    <label for="flightNumber" class="col-2">Flight Number: </label>
+    <input name="flightNumber" id="flightNumber" required value="{{booking.flightNumber}}" />
+</fieldset>
+
+<button class="offset-3 btn btn-primary">Save</button>
+
+</form>

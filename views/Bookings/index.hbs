@@ -1,0 +1,35 @@
+<style> .locationPage{margin: 100px;}</style>
+<div class="locationPage" id="locationPage">
+<h3>{{title}}</h3>
+<p>This is a list of bookings available</p>
+
+<a href="/bookings/add" id="addBtn" class="btn btn-info">Add A New Booking Here</a>
+
+<table class="table table-stripped table-hover">
+    <thead>
+        <th>Name</th>
+        <th>Airline Name</th>
+        <th>Departure Date</th>
+        <th>Departure Location</th>
+        <th>Arrival Location</th>
+        <th>Flight Number</th>
+        <th></th>
+    </thead>
+    <tbody>
+        {{#each dataset}}
+            <tr>
+                <td>{{this.name}}</td>
+                <td>{{this.airline}}</td>
+                <td>{{this.departureDate}}</td>
+                <td>{{this.departureAirport}}</td>
+                <td>{{this.arrivalAirport}}</td>
+                <td>{{this.flightNumber}}</td>
+                <td>
+                    <a href="/bookings/edit/{{this.id}}" id="edit" class="btn btn-primary">Edit</a>
+                    <a href="/booking/delete/{{this.id}}" id="delete" class="btn btn-danger" onclick="return confirmDeletion()">Delete</a>
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>

@@ -1,0 +1,38 @@
+<div class="addPage" id="addPage">
+<h1>{{title}}</h1>
+<form method="post">
+    <fieldset>
+        <label for="name" class="col-2">Name: </label>
+        <input name="name" id="name" required/>
+    </fieldset>
+    <fieldset>
+        <label for="airline" class="col-2">
+            Airline:
+        </label>
+        <select name="airline" id="airline">
+            {{#each airline}}
+            <option>{{this.name}}</option>
+            {{/each}}
+        </select>
+    </fieldset>
+    <fieldset>
+        <label for="departureDate" class="col-2"> Departure Date: </label>
+        <input name="departureDate" id="departureDate"  required/>
+    </fieldset>
+    <fieldset>
+        <label for="departureAirport" class="col-2">Departure Airport: </label>
+        <input name="departureAirport" id="departureAirport" required/>
+    </fieldset>
+    <fieldset>
+        <label for="arrivalAirport" class="col-2">Arrival Airport: </label>
+        <input name="arrivalAirport" id="arrivalAirport" required />
+    </fieldset>
+   
+    <fieldset>
+        <label for="flightNumber" class="col-2">Flight Number: </label>
+        <input name="flightNumber" id="flightNumber" required/>
+    </fieldset>
+
+    <button class="offset-3 btn btn-primary">Save</button>
+</form>
+</div>

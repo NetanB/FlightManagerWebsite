@@ -1,0 +1,79 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+/** Background image is from https://free4kwallpapers.com/uploads/originals/2019/11/11/home-world-plane-wallpaper.jpg */
+body {
+  margin-bottom: 60px;
+  background-image: url('../images/home-world-plane-wallpaper.jpg');
+  background-size: cover;
+
+}
+
+.navbar-brand img {
+  width: 150px;
+  transform: rotate(20deg);
+  padding: 30px 30px
+}
+
+body table {
+  background: white;
+  padding: 10px;
+  border-radius: 25px;
+  opacity: 0.7;
+}
+
+.mapbox {
+  position: fixed;
+  height: 50%;
+  width: 75%;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  border: 1px solid var(--jet);
+  overflow: hidden;
+  margin-left: 50px;
+}
+
+.mapbox figure {
+  height: 100%;
+}
+
+.mapbox iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.btn {
+  margin-bottom: 20px;
+}
+
+.loginPage {
+  margin: 100px;
+}
+
+.registerPage {
+  margin: 100px;
+}
+
+.form-group {
+  margin: 15px;
+}
+
+.locationPage {
+  margin: 100px;
+}
+
+.addPage{
+  margin: 100px;
+}

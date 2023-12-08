@@ -1,0 +1,26 @@
+<style>
+    .contentAdd {
+        margin: 100px;
+    }
+</style>
+<div class="contentAdd" id="contentAdd">
+<h1>
+    {{title}}
+</h1>
+<a href="/airlines/add" id="addBtn" class="btn btn-info">Add a new airline</a>
+<table class="table table-striped table-hover">
+    <thead>
+        <th>Name</th>
+    
+        <th>Airline Code</th>
+    </thead>
+    <tbody>
+        {{#each dataset}}
+        <tr>
+            <td>{{this.name}}</Td>
+            <td>{{this.airlineCode}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>
