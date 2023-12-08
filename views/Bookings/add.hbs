@@ -1,18 +1,17 @@
 <div class="addPage" id="addPage">
 <h1>{{title}}</h1>
-<form method="post">
+<form method="POST">
     <fieldset>
         <label for="name" class="col-2">Name: </label>
         <input name="name" id="name" required/>
     </fieldset>
     <fieldset>
-        <label for="airline" class="col-2">
-            Airline:
-        </label>
-        <select name="airline" id="airline">
-            {{#each airline}}
-            <option>{{this.name}}</option>
+        <label for="airlineName" class="col-2">Airline:</label>
+        <select name="airlineName" id="airlineName" required>
+            {{#each airlines}}
+            <option>{{this.airlineName}}</option>
             {{/each}}
+
         </select>
     </fieldset>
     <fieldset>
@@ -27,7 +26,6 @@
         <label for="arrivalAirport" class="col-2">Arrival Airport: </label>
         <input name="arrivalAirport" id="arrivalAirport" required />
     </fieldset>
-   
     <fieldset>
         <label for="flightNumber" class="col-2">Flight Number: </label>
         <input name="flightNumber" id="flightNumber" required/>

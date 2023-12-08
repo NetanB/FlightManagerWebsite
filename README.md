@@ -1,2 +1,0 @@
-# FlightManagerWebsite
- for deployment

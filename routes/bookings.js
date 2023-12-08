@@ -65,7 +65,7 @@ router.post('/add',IsLoggedIn, (req, res, next) => {
 });
 
 //delete 
-router.get('/delete/:_id',IsLoggedIn, (req, res, next) => {
+router.get('/delete/:_id', IsLoggedIn, (req, res, next) => {
     // call remove method and pass id as a json object
     Booking.remove({ _id: req.params._id }, (err) => {
         if (err) {
@@ -76,7 +76,6 @@ router.get('/delete/:_id',IsLoggedIn, (req, res, next) => {
         }
     })
 });
-
 // GET handler for Edit operations
 router.get('/edit/:_id',IsLoggedIn, (req, res, next) => {
 
@@ -106,6 +105,7 @@ router.get('/edit/:_id',IsLoggedIn, (req, res, next) => {
 router.post('/edit/:_id',IsLoggedIn, (req, res, next) => {
 
     Booking.findOneAndUpdate({ _id: req.params._id }, {
+        name: req.body.name,
         airlineName: req.body.airlineName,
         departureDate: req.body.departureDate,
         departureAirport: req.body.departureAirport,

@@ -1,20 +1,29 @@
+<style>
+    .input {
+        margin: 15px;
+        gap: 25px;
+    }
+</style>
 <div class="addPage" id="addPage">
 <h1>
     {{title}}
 </h1>
-<form method="POST">
-    <fieldset>
-        <label for="name">
+<form method="POST" class="form-group" id="form-group">
+    <fieldset class="col-2">
+        <label for="airlineName">
             Airline Name:
         </label>
-        <input name="name" id="name" />
+        <input name="airlineName" id="airlineName" />
     </fieldset>
-    <fieldset>
-        <label for="name">
+    <fieldset class="col-2">
+        <label for="airlineCode">
             Airline Code:
         </label>
         <input name="airlineCode" id="airlineCode" />
     </fieldset>
-    <button class="offset-3 btn btn-primary">Save</button>
+    <fieldset>
+        <button class="col-2 btn btn-primary" id="saveBtn">Save</button>
+    </fieldset>
+    
 </form>
 </div>

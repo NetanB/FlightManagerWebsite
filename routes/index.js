@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const User = require('../models/user');
 const passport = require('passport');
-const session = require('express-session');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -11,19 +10,14 @@ router.get('/', function(req, res, next) {
 
 // GET handler for /login
 router.get('/login', (req, res, next) => {
-  // res.render('login', { title: 'Login' });
-  // Obtain messages if any
   let messages = req.session.messages || [];
-  // Clear messages
   req.session.messages = [];
-  // Pass messages to view
   res.render('login', { title: 'Login', messages: messages });
 });
 
 // POST handler for /login
-// Syntax will be a bit different since login will be handled by passport
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/projects',
+  successRedirect: '/bookings',
   failureRedirect: '/login',
   failureMessage: 'Invalid credentials'
 }));
@@ -61,13 +55,6 @@ router.get('/logout', (req, res, next) => {
     res.redirect('/login');
   });
 });
-
-
-
-
-
-
-
 
 ///
 router.get('/github', passport.authenticate('github', {scope: ["user.email"]}));

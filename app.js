@@ -1,9 +1,10 @@
-var checkAuthentication = require("./config/googleAuth.js");
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
+
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/users');
@@ -13,17 +14,24 @@ var airlineRouter = require('./routes/airlines');
 
 
 const config = require('./config/globals');
-
+const session = require('express-session');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const githubStrategy = require('passport-github2').Strategy;
 const googleStrategy = require('passport-google-oauth20').Strategy;
 
 
-const session = require('express-session');
 
 var app = express();
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
   secret: 'f2023Fl1ghtManag3r',
@@ -35,6 +43,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+const User = require('./models/user');
+passport.use(User.createStrategy());
+
+/*
 passport.use(
   new googleStrategy(
     {
@@ -96,27 +109,9 @@ app.get('/auth/google/success', (req, res) => {
 app.get('/auth/google/failure', (req, res) => {
   res.send("Welcome to failure page");
 });
-
-  // used to serialize the user for the session
-  passport.serializeUser((user, done) => {
-    done(null, user.id)
-  })
-
-  // used to deserialize the user
-  passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-      done(err, user);
-    });
-  })
-
-
-
-// Link passport to the user model
-const User = require('./models/user');
-passport.use(User.createStrategy());
+*/
 
 // Configure passport-github2 with the API keys and user model
-// We need to handle two scenarios: new user, or returning user
 passport.use(new githubStrategy({
   clientID: config.github.clientId,
   clientSecret: config.github.clientSecret,
@@ -148,28 +143,22 @@ passport.use(new githubStrategy({
   }
 ));
 
+  // used to serialize the user for the session
+  passport.serializeUser((user, done) => {
+    done(null, user.id)
+  })
+
+  // used to deserialize the user
+  passport.deserializeUser((id, done) => {
+    User.findById(id, (err, user) => {
+      done(err, user);
+    });
+  })
+
+
 // Set passport to write/read user data to/from session object
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-
-
-
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-
-app.use("/", express.static("./node_modules/bootstrap/dist/"));
-app.use(
-  express.static(path.join(__dirname, "node_modules/bootstrap/dist/"))
-);
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
 
 
 app.use('/', indexRouter);
@@ -180,22 +169,39 @@ app.use('/airlines', airlineRouter);
 
 
 //config mongoose
-mongoose
-.connect(config.db, {useNewUrlParser: true, useUnifiedTopology: true})
-.then((message)=>{
-  console.log('connected Successfully!')
-})
-.catch((err) =>{
-  console.log('error while connecting')
+//let connectionString = `mongodb+srv://${process.env.username}:${process.env.password}@cluster0.o0rnwhv.mongodb.net/FlightManagerAPI`;
+mongoose.connect(config.db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then((message) => {
+    console.log('Connected successfully!');
+  })
+  .catch((error) => {
+    console.log(`Error while connecting! ${error}`);
+  });
+const hbs = require('hbs');
+const e = require('express');
+// function name and helper function with parameters
+hbs.registerHelper('createOption', (currentValue, selectedValue) => {
+  // initialize selected property
+  var selectedProperty = '';
+  // if values are equal set selectedProperty accordingly
+  if (currentValue == selectedValue) {
+    selectedProperty = 'selected';
+  }
+  return new hbs.SafeString(`<option ${selectedProperty}>${currentValue}</option>`);
+});
+
+// helper function to format date values
+hbs.registerHelper('toShortDate', (longDateValue) => {
+  return new hbs.SafeString(longDateValue.toLocaleDateString('en-CA'));
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

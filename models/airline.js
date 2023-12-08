@@ -2,13 +2,12 @@ const mongoose = require('mongoose');
 
 const airlineSchemaDefinition = {
 
-    name: {
+    airlineName: {
         type: String,
         required: true
     },
     airlineCode: {
-        type: String,
-        required: true
+        type: String
     }
 };
 

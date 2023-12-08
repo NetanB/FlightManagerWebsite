@@ -7,17 +7,18 @@
 <h1>
     {{title}}
 </h1>
+{{#if user}}
 <a href="/airlines/add" id="addBtn" class="btn btn-info">Add a new airline</a>
+{{/if}}
 <table class="table table-striped table-hover">
     <thead>
         <th>Name</th>
-    
         <th>Airline Code</th>
     </thead>
     <tbody>
         {{#each dataset}}
         <tr>
-            <td>{{this.name}}</Td>
+            <td>{{this.airlineName}}</Td>
             <td>{{this.airlineCode}}</td>
         </tr>
         {{/each}}

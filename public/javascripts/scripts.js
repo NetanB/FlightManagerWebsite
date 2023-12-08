@@ -1,3 +1,3 @@
 function confirmDeletion() {
-    return confirm('Are you sure you want to remove this booking?');
+    return confirm('Are you sure you want to delete this booking?');
 }

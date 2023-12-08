@@ -6,11 +6,10 @@
     <input name="name" id="name" required value="{{booking.name}}"/>
 </fieldset>
 <fieldset>
-    <select name="airline" id="airline">
+     <label for="name" class="col-2">Airline: </label>
+    <select name="airlineName" id="airlineName">
         {{#each airlines}}
-        <!--<option>{{this.name}}</option>-->
-        {{!-- Modify this block of code with a helper method (app.js) to add a selected option --}}
-        {{createOption this.name ../booking.airline}}
+        {{createOption this.airlineName ../booking.airline}}
         {{/each}}
     </select>
 </fieldset>
@@ -26,7 +25,6 @@
     <label for="arrivalAirport" class="col-2">Arrival Airport: </label>
     <input name="arrivalAirport" id="arrivalAirport" required value="{{booking.arrivalAirport}}"/>
 </fieldset>
-
 <fieldset>
     <label for="flightNumber" class="col-2">Flight Number: </label>
     <input name="flightNumber" id="flightNumber" required value="{{booking.flightNumber}}" />

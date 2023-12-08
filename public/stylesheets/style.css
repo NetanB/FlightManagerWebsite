@@ -77,3 +77,7 @@ body table {
 .addPage{
   margin: 100px;
 }
+
+#saveBtn{
+  margin: 15px;
+}

@@ -7,7 +7,7 @@
         type: String,
         required: true
     },
-    airline:{
+    airlineName:{
         type: String,
         required: true
     },
