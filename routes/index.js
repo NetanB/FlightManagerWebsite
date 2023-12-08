@@ -67,11 +67,12 @@ router.get('/github/callback',
   (req, res, next) => { res.redirect('/bookings') }
 );
 
+router.get('/auth/google',
+  passport.authenticate('google', { scope:
+      [ 'email', 'profile' ] }
+));
 
-router.get('/google', passport.authenticate('google', { scope: ["user.email"] }));
-
-
-router.get('/google/callback',
+router.get('/auth/google/callback',
   // callback to send user back to login if unsuccessful
   passport.authenticate('google', { failureRedirect: '/login' }),
   // callback when login is successful

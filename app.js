@@ -1,3 +1,4 @@
+require('dotenv').config()
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -18,7 +19,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const githubStrategy = require('passport-github2').Strategy;
-const googleStrategy = require('passport-google-oauth20').Strategy;
+const googleStrategy = require( 'passport-google-oauth2' ).Strategy;
 
 
 
@@ -47,69 +48,36 @@ app.use(passport.session());
 const User = require('./models/user');
 passport.use(User.createStrategy());
 
-/*
-passport.use(
-  new googleStrategy(
-    {
-      clientID: config.google.clientId,
-      clientSecret: config.google.clientSecret,
-      callbackURL: config.google.callbackUrl,
-      passReqToCallback: true
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      //get the user data from google 
-      const newUser = {
-        googleId: profile.id,
-        displayName: profile.displayName,
-        firstName: profile.name.givenName,
-        lastName: profile.name.familyName,
-        image: profile.photos[0].value,
-        email: profile.emails[0].value
-      }
 
-      try {
-        //find the user in our database 
-        let user = await User.findOne({ googleId: profile.id })
 
-        if (user) {
-          //If user present in our database.
-          done(null, user)
-        } else {
-          // if user is not preset in our database save user data to database.
-          user = await User.create(newUser)
-          done(null, user)
-        }
-      } catch (err) {
-        console.error(err)
-        }
-      }
-    )
-  )
-app.get('/auth/google', passport.authenticate('google', {
-  scope: ['email', 'profile'],
-}));
-
-app.get("/sign/in", checkAuthentication, (req, res) => {
-  res.redirect("/auth/google/success");
-})
-
-app.get('/auth/google/callback', passport.authenticate('google', {
-  successRedirect: '/auth/google/success',
-  failureRedirect: '/auth/google/failure',
-}));
-
-app.get('/auth/google/success', (req, res) => {
-
-  // create a session state named userDetail containg all info of userInfoVariable
-  req.session.userDetail = userInfoVariable;
-
-  res.redirect("/");
-});
-
-app.get('/auth/google/failure', (req, res) => {
-  res.send("Welcome to failure page");
-});
-*/
+passport.use(new googleStrategy({
+  clientID: config.google.clientId,
+  clientSecret: config.google.clientSecret,
+  callbackURL: config.google.callbackUrl,
+    passReqToCallback   : true
+  },
+  async(request, accessToken, refreshToken, profile, done) => {
+    const userG = await User.findOne({ googleId: profile.id });
+    // user exists (returning user)
+    if (user) {
+      // no need to do anything else
+      return done(null, user);
+    }
+    else {
+      // new user so register them in the db
+      const newUser = new User({
+        username: profile.username,
+        oauthId: profile.id,
+        oauthProvider: 'Github',
+        created: Date.now()
+      });
+      // add to DB
+      const savedUser = await newUser.save();
+      // return
+      return done(null, savedUser);
+    }
+  }
+));
 
 // Configure passport-github2 with the API keys and user model
 passport.use(new githubStrategy({
